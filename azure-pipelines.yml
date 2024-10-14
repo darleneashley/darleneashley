@@ -1,0 +1,72 @@
+/**
+ * Function to get scores from the user.
+ * Preconditions: scores is an array of integers, numScores is a reference to an integer.
+ * Postconditions: scores will be filled with valid scores and numScores will contain the count of scores entered.
+ */
+void getScores(int scores[], int &numScores) {
+    while (numScores < MAX_SIZE) {
+        int score;
+        cout << "Enter score for student " << (numScores + 1) << ": ";
+        cin >> score;
+
+        // Validate score
+        if (cin.fail() || score < 0 || score > 100) {
+            cin.clear(); // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+            cout << "Invalid score. Please enter a value between 0 and 100." << endl;
+        } else {
+            scores[numScores] = score;
+            numScores++;
+        }
+    }
+}
+
+/**
+ * Function to get the maximum score from an array.
+ * Preconditions: scores is a const array of integers, numScores is an integer.
+ * Postconditions: returns the highest score in the array.
+ */
+int getMaxScore(const int scores[], int numScores) {
+    int maxScore = scores[0];
+    for (int i = 1; i < numScores; ++i) {
+        if (scores[i] > maxScore) {
+            maxScore = scores[i];
+        }
+    }
+    return maxScore;
+}
+
+/**
+ * Function to assign grades based on the scores and the best score.
+ * Preconditions: scores is a const array of integers, grades is an array of chars, 
+ *                numScores is an integer, and bestScore is an integer.
+ * Postconditions: grades will be filled based on the score criteria.
+ */
+void assignGrades(const int scores[], char grades[], int numScores, int bestScore) {
+    for (int i = 0; i < numScores; ++i) {
+        if (scores[i] >= bestScore - 10) {
+            grades[i] = 'A';
+        } else if (scores[i] >= bestScore - 20) {
+            grades[i] = 'B';
+        } else if (scores[i] >= bestScore - 30) {
+            grades[i] = 'C';
+        } else if (scores[i] >= bestScore - 40) {
+            grades[i] = 'D';
+        } else {
+            grades[i] = 'F';
+        }
+    }
+}
+
+/**
+ * Function to print the grades of students.
+ * Preconditions: grades is a const array of chars, numScores is an integer.
+ * Postconditions: prints the grades to the console.
+ */
+void printGrades(const char grades[], int numScores) {
+    cout << "Grades: ";
+    for (int i = 0; i < numScores; ++i) {
+        cout << grades[i] << " ";
+    }
+    cout << endl;
+}
